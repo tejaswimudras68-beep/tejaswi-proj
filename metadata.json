@@ -1,0 +1,8 @@
+{
+  "name": "Remix Minimalist Ecommerce Store",
+  "description": "A clean, minimalist ecommerce application with product catalog, cart drawer, full CRUD management, and Supabase integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
