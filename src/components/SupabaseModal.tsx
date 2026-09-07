@@ -32,14 +32,27 @@ CREATE POLICY "Public products insert" ON products FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public products update" ON products FOR UPDATE USING (true);
 CREATE POLICY "Public products delete" ON products FOR DELETE USING (true);
 
--- 4. Initial Seed Data
+-- 4. Curated Catalog Seed Data (18 Items)
 INSERT INTO products (title, description, price, stock_quantity, image_url, category, is_featured)
 VALUES
-  ('Kinto Ceramic Pour-Over Mug', 'Artisanal stoneware mug with a tactile matte glaze and raw unglazed foot.', 36.00, 14, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=900&auto=format&fit=crop&q=80', 'objects', true),
-  ('Woven European Linen Overshirt', 'Tailored from heavyweight organic French flax linen.', 128.00, 9, 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=900&auto=format&fit=crop&q=80', 'apparel', true),
+  ('Kinto Ceramic Pour-Over Mug', 'Artisanal stoneware mug with a tactile matte glaze and raw unglazed terracotta foot.', 36.00, 14, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=900&auto=format&fit=crop&q=80', 'objects', true),
   ('Machined Solid Brass Catchall', 'Precision milled from a solid billet of untreated architectural brass.', 68.00, 12, 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=900&auto=format&fit=crop&q=80', 'objects', true),
-  ('Archival Grid Journal No. 4', 'Thread-sewn layflat binding with 120gsm fountain-pen friendly paper.', 24.00, 28, 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=900&auto=format&fit=crop&q=80', 'stationery', false),
-  ('Hinoki Cypress Room Diffuser', 'Cold-pressed wild hinoki wood essential oil in amber glass jar.', 52.00, 18, 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=900&auto=format&fit=crop&q=80', 'living', true);`;
+  ('Matte Black Cold-Drip Brewer', 'Slow-extraction borosilicate glass cold brew tower with micro-etched stainless steel filter.', 145.00, 8, 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=900&auto=format&fit=crop&q=80', 'objects', true),
+  ('Anodized Aluminum Table Clock', 'Silent sweep quartz movement housed within a cylindrical brushed aluminum chassis.', 85.00, 16, 'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=900&auto=format&fit=crop&q=80', 'objects', false),
+  ('Minimalist Beechwood Bookstand', 'Single-piece steam-bent solid European beechwood stand with hand-rubbed organic oil finish.', 54.00, 22, 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=900&auto=format&fit=crop&q=80', 'objects', false),
+  ('Woven European Linen Overshirt', 'Tailored from heavyweight organic French flax linen with horn-style buttons.', 128.00, 9, 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=900&auto=format&fit=crop&q=80', 'apparel', true),
+  ('Heavyweight Ribbed Cotton Beanie', 'Knitted from dry-spun combed carded cotton yarns in a traditional fisherman 7-gauge stitch.', 44.00, 15, 'https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=900&auto=format&fit=crop&q=80', 'apparel', false),
+  ('Raw Selvedge Denim Chore Coat', 'Constructed from 13.5oz shuttle-loom Japanese selvedge denim with triple needle stitching.', 195.00, 7, 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=900&auto=format&fit=crop&q=80', 'apparel', true),
+  ('Supima Cotton Heavy Pocket Tee', 'Knit from long-staple combed Supima cotton with reinforced ribbed collar.', 48.00, 35, 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=900&auto=format&fit=crop&q=80', 'apparel', false),
+  ('Merino Wool Waffle Knit Crewneck', 'Spun from extra-fine 19.5 micron Australian merino wool in thermal waffle stitch.', 165.00, 11, 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=900&auto=format&fit=crop&q=80', 'apparel', true),
+  ('Archival Grid Journal No. 4', 'Thread-sewn layflat binding filled with 160 pages of 120gsm fountain-pen friendly paper.', 24.00, 28, 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=900&auto=format&fit=crop&q=80', 'stationery', false),
+  ('Brushed Titanium Fountain Pen', 'CNC turned aerospace-grade titanium with an iridium-tipped German steel nib.', 88.00, 6, 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=900&auto=format&fit=crop&q=80', 'stationery', true),
+  ('Solid Brass Architect Ruler 30cm', 'Metric and imperial graduated edges laser etched into raw untreated architectural brass.', 32.00, 19, 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=900&auto=format&fit=crop&q=80', 'stationery', false),
+  ('Vegetable-Tanned Leather Pen Sleeve', 'Hand-stitched Tuscan vegetable-tanned bridle leather with beeswax burnished edges.', 42.00, 14, 'https://images.unsplash.com/photo-1585336261026-7782b5f7936a?w=900&auto=format&fit=crop&q=80', 'stationery', false),
+  ('Hinoki Cypress Room Diffuser', 'Cold-pressed wild hinoki wood essential oil in apothecary amber glass jar.', 52.00, 18, 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=900&auto=format&fit=crop&q=80', 'living', true),
+  ('Cast Iron Incense Burner Bowl', 'Traditional Nambu Tekki sand-cast iron vessel with removable brass pinholder.', 48.00, 11, 'https://images.unsplash.com/photo-1602928321679-560bb453f190?w=900&auto=format&fit=crop&q=80', 'living', false),
+  ('Hand-Poured Smoked Cedar Candle', '100% domestic soy wax scented with charred atlas cedar, patchouli, and crackling wood wick.', 34.00, 25, 'https://images.unsplash.com/photo-1596433809252-260c2745dfdd?w=900&auto=format&fit=crop&q=80', 'living', false),
+  ('Belgian Washed Linen Throw Blanket', 'Stonewashed master flax linen woven in a subtle herringbone pattern with eyelash fringe.', 135.00, 10, 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=900&auto=format&fit=crop&q=80', 'living', true);`;
 
 export const SupabaseModal: React.FC<SupabaseModalProps> = ({
   isOpen,

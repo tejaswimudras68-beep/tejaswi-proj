@@ -12,7 +12,12 @@ function getLocalProducts(): Product[] {
     return INITIAL_PRODUCTS;
   }
   try {
-    return JSON.parse(stored);
+    const parsed = JSON.parse(stored);
+    if (Array.isArray(parsed) && parsed.length < INITIAL_PRODUCTS.length) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(INITIAL_PRODUCTS));
+      return INITIAL_PRODUCTS;
+    }
+    return parsed;
   } catch {
     return INITIAL_PRODUCTS;
   }
@@ -184,4 +189,32 @@ export async function deleteProduct(id: string | number): Promise<{ success: boo
 export function resetDemoData(): Product[] {
   saveLocalProducts(INITIAL_PRODUCTS);
   return INITIAL_PRODUCTS;
+}
+
+export async function seedProductsToDatabase(): Promise<{ success: boolean; count: number; error?: string }> {
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const payload = INITIAL_PRODUCTS.map(({ id, ...rest }) => ({
+        title: rest.title,
+        description: rest.description,
+        price: Number(rest.price),
+        stock_quantity: Number(rest.stock_quantity),
+        image_url: rest.image_url,
+        category: rest.category.toLowerCase(),
+        is_featured: Boolean(rest.is_featured),
+        created_at: rest.created_at || new Date().toISOString(),
+      }));
+
+      const { data, error } = await supabase.from('products').insert(payload).select();
+      if (error) {
+        throw error;
+      }
+      return { success: true, count: data?.length || payload.length };
+    } catch (err: any) {
+      return { success: false, count: 0, error: err.message };
+    }
+  }
+
+  saveLocalProducts(INITIAL_PRODUCTS);
+  return { success: true, count: INITIAL_PRODUCTS.length };
 }

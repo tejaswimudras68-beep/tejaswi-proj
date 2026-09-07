@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
-import { Plus, Edit2, Trash2, Search, ArrowUpDown, Filter, Eye, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, ArrowUpDown, Filter, Eye, CheckCircle, AlertTriangle, Sparkles, RefreshCw, Database } from 'lucide-react';
 
 interface AdminProductManagerProps {
   products: Product[];
@@ -8,6 +8,9 @@ interface AdminProductManagerProps {
   onEditProduct: (product: Product) => void;
   onDeleteProduct: (product: Product) => void;
   onViewProduct: (product: Product) => void;
+  onSyncProducts?: () => Promise<void>;
+  onOpenSupabaseModal?: () => void;
+  isSyncing?: boolean;
 }
 
 export const AdminProductManager: React.FC<AdminProductManagerProps> = ({
@@ -16,6 +19,9 @@ export const AdminProductManager: React.FC<AdminProductManagerProps> = ({
   onEditProduct,
   onDeleteProduct,
   onViewProduct,
+  onSyncProducts,
+  onOpenSupabaseModal,
+  isSyncing = false,
 }) => {
   const [filterCategory, setFilterCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -74,13 +80,38 @@ export const AdminProductManager: React.FC<AdminProductManagerProps> = ({
           </p>
         </div>
 
-        <button
-          onClick={onOpenCreateModal}
-          className="flex items-center gap-2 px-5 py-2.5 bg-stone-900 text-stone-50 text-xs font-mono uppercase tracking-wider hover:bg-stone-800 transition-colors shadow-xs cursor-pointer"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>New Product Record</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2.5">
+          {onSyncProducts && (
+            <button
+              onClick={onSyncProducts}
+              disabled={isSyncing}
+              className="flex items-center gap-2 px-3.5 py-2.5 border border-stone-300 text-stone-700 bg-white hover:border-stone-900 text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-50"
+              title="Populate or sync all 18 curated items into database"
+            >
+              <Sparkles className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : 'text-amber-600'}`} />
+              <span>{isSyncing ? 'Syncing...' : 'Sync 18 Curated Items'}</span>
+            </button>
+          )}
+
+          {onOpenSupabaseModal && (
+            <button
+              onClick={onOpenSupabaseModal}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 border border-stone-300 text-stone-700 bg-white hover:border-stone-900 text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
+              title="View database connection credentials and SQL"
+            >
+              <Database className="w-3.5 h-3.5 text-stone-500" />
+              <span>DB / SQL</span>
+            </button>
+          )}
+
+          <button
+            onClick={onOpenCreateModal}
+            className="flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-stone-900 text-stone-50 text-xs font-mono uppercase tracking-wider hover:bg-stone-800 transition-colors shadow-xs cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>New Product</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}

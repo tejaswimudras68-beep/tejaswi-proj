@@ -39,28 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-30 bg-[#faf9f6]/90 backdrop-blur-md border-b border-stone-200/80 transition-colors">
-      {/* Top Banner with Supabase Status */}
-      <div className="bg-stone-900 text-stone-200 text-xs py-1.5 px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="font-mono text-[11px] tracking-wide">
-              {isSupabaseConfigured ? 'CONNECTED TO SUPABASE POSTGRES' : 'LOCAL ENGINE • SUPABASE READY'}
-            </span>
-          </div>
-          <div className="flex items-center gap-4 text-[11px] text-stone-300">
-            <span>Complimentary shipping on orders over $100</span>
-            <button
-              onClick={onOpenSupabaseModal}
-              className="underline underline-offset-4 hover:text-white transition-colors cursor-pointer flex items-center gap-1 font-mono"
-            >
-              <Database className="w-3 h-3" />
-              <span>SQL / Setup</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">

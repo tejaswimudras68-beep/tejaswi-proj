@@ -11,6 +11,7 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
+  seedProductsToDatabase,
 } from './services/productService';
 import { Navbar } from './components/Navbar';
 import { ProductCard } from './components/ProductCard';
@@ -41,6 +42,7 @@ function StoreApp() {
   const [isSupabaseModalOpen, setIsSupabaseModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const { showNotification, setIsCartOpen } = useCart();
 
@@ -121,6 +123,24 @@ function StoreApp() {
     setIsFormModalOpen(true);
   };
 
+  // Sync / Seed curated products
+  const handleSyncProducts = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await seedProductsToDatabase();
+      if (res.success) {
+        showNotification(`Synced ${res.count} curated items into the catalog.`);
+        await loadProducts();
+      } else {
+        alert(res.error || 'Failed to sync products');
+      }
+    } catch (err: any) {
+      alert(err.message || 'Error syncing items');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#faf9f6] text-stone-900 selection:bg-stone-900 selection:text-white">
       {/* Navigation */}
@@ -149,6 +169,9 @@ function StoreApp() {
             onEditProduct={handleEditClick}
             onDeleteProduct={(p) => setProductToDelete(p)}
             onViewProduct={(p) => setSelectedProduct(p)}
+            onSyncProducts={handleSyncProducts}
+            onOpenSupabaseModal={() => setIsSupabaseModalOpen(true)}
+            isSyncing={isSyncing}
           />
         ) : (
           /* STOREFRONT VIEW */
@@ -176,18 +199,11 @@ function StoreApp() {
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add Product</span>
                 </button>
-                <button
-                  onClick={() => setIsSupabaseModalOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-2 border border-stone-300 text-stone-700 hover:border-stone-900 text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
-                >
-                  <Database className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">DB Queries</span>
-                </button>
               </div>
             </div>
 
             {/* Category & Status Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-stone-500">
+            <div className="flex items-center justify-between gap-4 text-xs font-mono text-stone-500">
               <div className="flex items-center gap-2">
                 <span className="uppercase tracking-wider text-stone-800 font-medium">
                   {category === 'all' ? 'Entire Archive' : `Category: ${category}`}
@@ -200,18 +216,6 @@ function StoreApp() {
                     <span className="text-stone-800">matching "{searchQuery}"</span>
                   </>
                 )}
-              </div>
-
-              <div className="flex items-center gap-4">
-                <span className="text-[11px] text-stone-400">
-                  Data Layer: <strong className="text-stone-700 uppercase font-mono">{dataSource}</strong>
-                </span>
-                <button
-                  onClick={() => setViewMode('admin')}
-                  className="underline underline-offset-4 hover:text-stone-900 transition-colors cursor-pointer"
-                >
-                  Open Table View
-                </button>
               </div>
             </div>
 
